@@ -14,11 +14,14 @@ using System.Windows.Forms;
 // the OpenFileDialog has it built in
 using System.Text.RegularExpressions;
 using System.Data.OleDb;
+using System.IO;
+using System.Collections;
 
 namespace FM_eval
 {
     public partial class Form1 : Form
     {
+        private fm
         public Form1()
         {
             InitializeComponent();
@@ -35,6 +38,33 @@ namespace FM_eval
                     using(OleDbDataAdapter adapter = new OleDbDataAdapter(cmd))
                     {
                         adapter.Fill(dt);
+
+                        var allLines = File.ReadAllLines(fileName);
+                        var query = from line in allLines
+                                    let data = line.Split(',')
+                                    select new
+                                    {
+                                        ID = data[0],
+                                        FirstName = data[1],
+                                        LastName = data[2]
+                                    };
+                        //int Count = 0;
+
+                        List<Player> players = new List<Player>();
+
+                        foreach (var s in query)
+                        {
+                            //Count++;
+                            Player newPlayer = new Player();
+                            newPlayer.PlayerName = s.ID;
+                            newPlayer.Value1 = s.FirstName;
+                            newPlayer.Value2 = s.LastName;
+                            players.Add(newPlayer);
+                            
+                        }
+
+                        //playersDataSet.Lo
+
                     }
                 }
             }
@@ -44,6 +74,22 @@ namespace FM_eval
 
         private void fileBrowse_Click(object sender, EventArgs e)
         {
+            
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void importCSVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             ofd.Filter = "CSV|*.csv";
             // original before I found out about ofd.Filter
             //string pattern = ".*\\.csv$";
@@ -52,19 +98,13 @@ namespace FM_eval
             {
                 //Console.Write(pattern);
                 //Console.Write(ofd);
-                fileTextBox.Text = ofd.FileName;
+                toolStripFilePath.Text = ofd.FileName;
                 dataGridView.DataSource = readCsv(ofd.FileName);
             }
             else
             {
-                MessageBox.Show("Please select a CSV only", "FM Eval",MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                MessageBox.Show("Please select a CSV only", "FM Eval", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
             }
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
     }
 }
