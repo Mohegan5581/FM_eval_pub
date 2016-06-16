@@ -1,6 +1,6 @@
 ﻿namespace FM_eval
 {
-    partial class Form1
+    partial class FmEvalForm
     {
         /// <summary>
         /// Required designer variable.

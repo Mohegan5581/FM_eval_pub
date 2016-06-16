@@ -19,10 +19,10 @@ using System.Collections;
 
 namespace FM_eval
 {
-    public partial class Form1 : Form
+    public partial class FmEvalForm : Form
     {
-        private fm
-        public Form1()
+       // private 
+        public FmEvalForm()
         {
             InitializeComponent();
         }
@@ -44,9 +44,9 @@ namespace FM_eval
                                     let data = line.Split(',')
                                     select new
                                     {
-                                        ID = data[0],
-                                        FirstName = data[1],
-                                        LastName = data[2]
+                                        PlayerName = data[0],
+                                        Aggression = Int32.Parse(data[1]),
+                                        WorkRate = Int32.Parse(data[2])
                                     };
                         //int Count = 0;
 
@@ -56,9 +56,9 @@ namespace FM_eval
                         {
                             //Count++;
                             Player newPlayer = new Player();
-                            newPlayer.PlayerName = s.ID;
-                            newPlayer.Value1 = s.FirstName;
-                            newPlayer.Value2 = s.LastName;
+                            newPlayer.PlayerName = s.PlayerName;
+                            newPlayer.Aggression = s.Aggression;
+                            newPlayer.WorkRate = s.WorkRate;
                             players.Add(newPlayer);
                             
                         }
